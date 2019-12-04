@@ -1,0 +1,26 @@
+---
+- hosts: [kube_master]
+  remote_user: root
+  tasks:
+    - name: Deployment Nginx Expose Nodeport Persistent Data
+      shell: |
+       mkdir deployments
+       cd deployments
+       git clone https://github.com/renatowow14/kubernetes.git
+       cd kubernetes
+       kubectl apply -f ./ 
+       kubectl get pods
+       kubectl expose pod task-pv-pod --type=NodePort --port=80
+
+- hosts: [kube_nodes]
+  remote_user: root
+  tasks:
+   - name: Building Application to Nginx WebServer
+     shell: |
+      mkdir -p /mnt/data/
+      mkdir deployments
+      cd deployments
+      git clone https://github.com/renatowow14/kubernetes.git
+      cd kubernetes
+      cp index.html /mnt/data/
+       
