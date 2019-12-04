@@ -1,0 +1,19 @@
+[target]
+local ansible_connection=local ansible_become=yes ansible_become_method=sudo ansible_become_user=root
+
+# Kube Masters
+[kube_master]
+#kube-master1 ansible_host=10.10.40.90
+#kube-master2 ansible_host=10.10.40.91
+#kube-master3 ansible_host=10.10.40.92
+kube-loadbalancer ansible_host=10.10.40.93 
+#ansible_python_interpreter=/usr/bin/python3
+
+# Kube Nodes
+[kube_nodes]
+kube-node1 ansible_host=10.10.40.100
+kube-node2 ansible_host=10.10.40.101
+
+[cluster:children]
+kube_master
+kube_nodes
